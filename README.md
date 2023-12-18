@@ -48,12 +48,14 @@ julia> sa = SArray(ta)
 
 julia> using BenchmarkTools
 
-julia> @btime findfirst(==(:a), $sa)
-  3.188 ns (0 allocations: 0 bytes)
-CartesianIndex(1, 1)
+julia> @btime 
+sa = [:a, :b, :c, :d]
+findfirst(==(:d), sa)
+  5.105 ns (0 allocations: 0 bytes)
+CartesianIndex(2, 2)
 
-julia> @btime findfirst(==(:a), $ta)
+julia> @btime findfirst(==(:d), $ta)
   1.073 ns (0 allocations: 0 bytes)
-1
+CartesianIndex(2, 2)
 ```
 
