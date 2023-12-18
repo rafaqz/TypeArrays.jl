@@ -26,9 +26,9 @@ Base.@propagate_inbounds function Base.getindex(::TypeArray{V}, i::Int) where V
     V[i]
 end
 
-Base.findfirst(f::Function, A::TypeArray{V}; kw...) where V = 
+Base.@assume_effects :foldable Base.findfirst(f::Function, A::TypeArray{V}; kw...) where V = 
     CartesianIndices(A)[findfirst(f, V; kw...)]
-Base.findfirst(f::Function, A::TypeArray{V,<:Any,<:Any,1}; kw...) where V = 
+Base.@assume_effects :foldable Base.findfirst(f::Function, A::TypeArray{V,<:Any,<:Any,1}; kw...) where V = 
     findfirst(f, V; kw...)
 
 # TODO `searchsorted...`
