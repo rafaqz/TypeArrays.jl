@@ -46,8 +46,6 @@ julia> sa = SArray(ta)
  :a  :c
  :b  :d
 
-julia> using BenchmarkTools
-
 julia> @btime 
 sa = [:a, :b, :c, :d]
 findfirst(==(:d), sa)
