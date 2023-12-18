@@ -46,11 +46,10 @@ julia> sa = SArray(ta)
  :a  :c
  :b  :d
 
-julia> @btime 
-sa = [:a, :b, :c, :d]
-findfirst(==(:d), sa)
-  5.105 ns (0 allocations: 0 bytes)
+julia> julia> @btime findfirst(==(:d), $sa)
+  5.951 ns (0 allocations: 0 bytes)
 CartesianIndex(2, 2)
+
 
 julia> @btime findfirst(==(:d), $ta)
   1.073 ns (0 allocations: 0 bytes)
