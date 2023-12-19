@@ -26,10 +26,23 @@ Base.@propagate_inbounds function Base.getindex(::TypeArray{V}, i::Int) where V
     V[i]
 end
 
-Base.@assume_effects :foldable Base.findfirst(f::Function, A::TypeArray{V}; kw...) where V = 
-    CartesianIndices(A)[findfirst(f, V; kw...)]
-Base.@assume_effects :foldable Base.findfirst(f::Function, A::TypeArray{V,<:Any,<:Any,1}; kw...) where V = 
-    findfirst(f, V; kw...)
+for f in (:findfirst, :findlast, :findall, :findmin, :findmax)
+    @eval begin
+        Base.@assume_effects :foldable Base.$f(f::Function, A::TypeArray{V}) where V = 
+            CartesianIndices(A)[$f(f, V)]
+        Base.@assume_effects :foldable Base.$f(f::Function, A::TypeArray{V,<:Any,<:Any,1}) where V = 
+            $f(f, V)
+    end
+end
+
+for f in (:findprev, :findnext)
+    @eval begin
+        Base.@assume_effects :foldable Base.$f(f::Function, A::TypeArray{V}, i::CartesianIndex) where V = 
+            CartesianIndices(A)[$f(f, V, LinearIndices(A)[i])]
+        Base.@assume_effects :foldable Base.$f(f::Function, A::TypeArray{V,<:Any,<:Any,1}, i::Integer) where V = 
+            $f(f, V, i)
+    end
+end
 
 # TODO `searchsorted...`
 
