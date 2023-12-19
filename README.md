@@ -56,3 +56,4 @@ julia> @btime findfirst(==(:d), $ta)
 CartesianIndex(2, 2)
 ```
 
+With these properties `TypeArray` may be useful as no-cost lookups in DimensionalData,jl or AxisKeys.jl
