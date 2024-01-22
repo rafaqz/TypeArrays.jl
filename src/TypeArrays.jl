@@ -7,6 +7,9 @@ export TypeArray
 """
     TypeArray <: StaticArray
 
+    TypeArray{values}()
+    TypeArray(values::Union{Tuple,AbstractArray})
+
 An array that stores data entirely in the type.
 
 This can be useful for e.g. very fast `findfirst`
